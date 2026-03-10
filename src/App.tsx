@@ -7,7 +7,9 @@ import {
   CheckCircle2,
   AlertTriangle,
   Clock,
-  Activity
+  Activity,
+  Anchor,
+  ChevronRight
 } from 'lucide-react';
 import './index.css';
 
@@ -65,8 +67,6 @@ function App() {
   const simulateProcessing = () => {
     if (!file) return;
     setIsProcessing(true);
-
-    // Simulate API call to Gemini Pro / Backend
     setTimeout(() => {
       setIsProcessing(false);
       setReport(mockReport);
@@ -80,220 +80,202 @@ function App() {
 
   return (
     <div className="layout-container">
-      {/* Header */}
-      <header className="header" style={{ position: 'relative', zIndex: 100, background: 'rgba(255, 255, 255, 0.95)', backdropFilter: 'blur(10px)' }}>
+
+      {/* ========== HEADER ========== */}
+      <header className="header">
         <div className="logo-container">
-          <img src="/foresea-logo.svg" alt="Foresea" style={{ height: '55px' }} />
+          <img src="/foresea-logo.svg" alt="Foresea" className="header-logo" />
         </div>
+        <nav className="header-nav">
+          <span className="nav-label active">Uptime Operacional</span>
+        </nav>
         <div className="header-actions">
-          <button className="btn-secondary" style={{ padding: '0.5rem 1rem', fontSize: '0.875rem' }}>
-            <Settings size={18} />
-            Ajustes
-          </button>
-          <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'var(--color-navy)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>
-            QO
-          </div>
+          <div className="avatar">QD</div>
         </div>
       </header>
 
-      {/* Hero Banner Section */}
-      <div style={{
-        height: '40vh',
-        minHeight: '300px',
-        maxHeight: '400px',
-        width: '100%',
-        position: 'relative',
-        background: 'linear-gradient(90deg, var(--color-cyan) 0%, var(--color-green) 100%)',
-        backgroundImage: 'url("https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80")', // Stock image representing offshore/drilling/machinery
-        backgroundSize: 'cover',
-        backgroundPosition: 'center 40%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        boxShadow: 'inset 0 0 0 1000px rgba(25, 27, 69, 0.6)' // Navy overlay
-      }}>
+      {/* ========== HERO ========== */}
+      <section className="hero">
+        {/* Decorative cyan accent bar at top like Foresea site */}
+        <div className="hero-accent-bar"></div>
 
-        {/* Curvilinear Cutout Effect mimicking the Foresea website */}
-        <div style={{
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          width: '100%',
-          overflow: 'hidden',
-          lineHeight: 0,
-          transform: 'rotate(180deg)'
-        }}>
-          <svg viewBox="0 0 1200 120" preserveAspectRatio="none" style={{ position: 'relative', display: 'block', width: 'calc(100% + 1.3px)', height: '60px' }}>
-            <path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z" fill="#F4F7FB"></path>
+        <div className="hero-image-wrapper">
+          <img src="/hero-platform.png" alt="Plataforma Offshore" className="hero-image" />
+          <div className="hero-overlay"></div>
+        </div>
+
+        <div className="hero-content">
+          <div className="hero-badge">
+            <Anchor size={16} />
+            <span>Powered by Gemini Pro</span>
+          </div>
+          <h1 className="hero-title">
+            Uptime<br />
+            <span className="hero-title-accent">Operacional</span>
+          </h1>
+          <p className="hero-subtitle">
+            Análise inteligente de documentos e métricas de embarcações.<br />
+            Consolide relatórios operacionais com IA.
+          </p>
+          <a href="#workspace" className="hero-cta">
+            Iniciar Análise
+            <ChevronRight size={20} />
+          </a>
+        </div>
+
+        {/* Foresea-style SVG wave transition */}
+        <div className="hero-wave">
+          <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+            <path d="M0,64L48,58.7C96,53,192,43,288,48C384,53,480,75,576,80C672,85,768,75,864,64C960,53,1056,43,1152,42.7C1248,43,1344,53,1392,58.7L1440,64L1440,120L1392,120C1344,120,1248,120,1152,120C1056,120,960,120,864,120C768,120,672,120,576,120C480,120,384,120,288,120C192,120,96,120,48,120L0,120Z" fill="#F4F7FB" />
           </svg>
         </div>
+      </section>
 
-        <div style={{ textAlign: 'center', position: 'relative', zIndex: 10, padding: '0 2rem' }}>
-          <h1 style={{ fontSize: '3.5rem', fontWeight: 800, letterSpacing: '-1px', color: 'white', marginBottom: '1rem', textShadow: '0 4px 10px rgba(0,0,0,0.3)' }}>
-            Uptime Operacional
-          </h1>
-          <p style={{ fontSize: '1.2rem', maxWidth: '600px', margin: '0 auto', color: 'rgba(255, 255, 255, 0.9)', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>
-            Análise Inteligente e Consolidação de Métricas extraídas de relatórios de embarcações.
-          </p>
-        </div>
-      </div>
+      {/* ========== MAIN CONTENT ========== */}
+      <main className="main-content" id="workspace">
+        <div className="workspace-card glass-panel">
 
-      {/* Main Content */}
-      <main className="main-content" style={{ marginTop: '-40px', position: 'relative', zIndex: 20 }}>
+          {!report ? (
+            <>
+              <div className="workspace-header">
+                <div>
+                  <h2 className="card-title">
+                    <UploadCloud size={24} className="icon-cyan" />
+                    Processamento de Documento
+                  </h2>
+                  <p className="card-description">
+                    Faça o upload dos relatórios operacionais em PDF ou texto para extrair as métricas de uptime com o Gemini Pro e consolidar os dados.
+                  </p>
+                </div>
+              </div>
 
-        <div className="dashboard-grid">
+              <div
+                className={`upload-area ${dragActive ? 'dragging' : ''}`}
+                onDragEnter={handleDrag}
+                onDragLeave={handleDrag}
+                onDragOver={handleDrag}
+                onDrop={handleDrop}
+                onClick={() => document.getElementById('file-upload')?.click()}
+              >
+                <input
+                  type="file"
+                  id="file-upload"
+                  style={{ display: 'none' }}
+                  onChange={handleChange}
+                  accept=".pdf,.doc,.docx,.txt"
+                />
 
-          {/* Main Workspace Column */}
-          <div className="glass-panel" style={{ padding: '2rem' }}>
+                {file ? (
+                  <div className="upload-file-display">
+                    <div className="upload-file-icon">
+                      <FileText size={40} />
+                    </div>
+                    <p className="upload-text">{file.name}</p>
+                    <p className="upload-hint">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
+                  </div>
+                ) : (
+                  <>
+                    <div className="upload-icon">
+                      <UploadCloud size={36} />
+                    </div>
+                    <p className="upload-text">Arraste e solte o documento aqui</p>
+                    <p className="upload-hint">ou clique para procurar em seus arquivos (PDF, DOCX, TXT)</p>
+                  </>
+                )}
+              </div>
 
-            {!report ? (
-              <>
-                <h2 className="card-title">
-                  <UploadCloud size={24} style={{ color: 'var(--color-cyan)' }} />
-                  Processamento de Documento
-                </h2>
-                <p style={{ color: 'var(--color-gray-500)', marginBottom: '1.5rem' }}>
-                  Faça o upload dos relatórios operacionais em PDF ou texto para extrair as métricas de uptime com o Gemini Pro e consolidar os dados.
-                </p>
-
-                <div
-                  className={`upload-area ${dragActive ? 'dragging' : ''}`}
-                  onDragEnter={handleDrag}
-                  onDragLeave={handleDrag}
-                  onDragOver={handleDrag}
-                  onDrop={handleDrop}
-                  onClick={() => document.getElementById('file-upload')?.click()}
-                  style={{ padding: '5rem 2rem', minHeight: '300px' }}
+              <div className="workspace-actions">
+                {file && (
+                  <button className="btn-secondary" onClick={() => setFile(null)} disabled={isProcessing}>
+                    Cancelar
+                  </button>
+                )}
+                <button
+                  className="btn-primary"
+                  onClick={simulateProcessing}
+                  disabled={!file || isProcessing}
                 >
-                  <input
-                    type="file"
-                    id="file-upload"
-                    style={{ display: 'none' }}
-                    onChange={handleChange}
-                    accept=".pdf,.doc,.docx,.txt"
-                  />
-
-                  {file ? (
+                  {isProcessing ? (
                     <>
-                      <FileText size={48} style={{ color: 'var(--color-green)', marginBottom: '1rem' }} />
-                      <p className="upload-text">{file.name}</p>
-                      <p className="upload-hint">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
+                      <div className="loader" />
+                      Processando com IA...
                     </>
                   ) : (
                     <>
-                      <div className="upload-icon">
-                        <UploadCloud size={32} />
-                      </div>
-                      <p className="upload-text">Arraste e solte o documento aqui</p>
-                      <p className="upload-hint">ou clique para procurar em seus arquivos (PDF, DOCX, TXT)</p>
+                      <BarChart3 size={20} />
+                      Analisar Documento
                     </>
                   )}
+                </button>
+              </div>
+            </>
+          ) : (
+            /* ===== REPORT VIEW ===== */
+            <div className="report-container">
+              <div className="report-header">
+                <div className="report-header-top">
+                  <h2 className="card-title" style={{ marginBottom: 0 }}>
+                    <CheckCircle2 size={24} className="icon-green" />
+                    Análise Concluída
+                  </h2>
+                  <span className="badge-success">Sucesso</span>
                 </div>
-
-                <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
-                  {file && (
-                    <button className="btn-secondary" onClick={() => setFile(null)} disabled={isProcessing}>
-                      Cancelar
-                    </button>
-                  )}
-                  <button
-                    className="btn-primary"
-                    onClick={simulateProcessing}
-                    disabled={!file || isProcessing}
-                  >
-                    {isProcessing ? (
-                      <>
-                        <div className="loader" />
-                        Aguarde, processando com IA...
-                      </>
-                    ) : (
-                      <>
-                        <BarChart3 size={20} />
-                        Analisar Documento
-                      </>
-                    )}
-                  </button>
-                </div>
-              </>
-            ) : (
-              // Report View
-              <div className="report-container">
-                <div className="report-header">
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <h2 className="card-title" style={{ marginBottom: 0 }}>
-                      <CheckCircle2 size={24} style={{ color: 'var(--color-green)' }} />
-                      Análise Concluída
-                    </h2>
-                    <span style={{ backgroundColor: 'rgba(33, 205, 142, 0.1)', color: 'var(--color-green)', padding: '0.25rem 0.75rem', borderRadius: '12px', fontSize: '0.875rem', fontWeight: 600 }}>
-                      Sucesso
-                    </span>
-                  </div>
-                  <div className="report-meta">
-                    <span>Documento: <strong>{report.documentId}</strong> ({file?.name})</span>
-                    <span>Processado em: {report.processedAt}</span>
-                  </div>
-                </div>
-
-                <div
-                  style={{
-                    background: 'var(--color-navy)',
-                    color: 'white',
-                    padding: '1.5rem',
-                    borderRadius: '12px',
-                    marginBottom: '2rem',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    textAlign: 'center'
-                  }}
-                >
-                  <p style={{ color: 'var(--color-cyan)', fontWeight: 600, marginBottom: '0.5rem', fontSize: '1.1rem' }}>Uptime Geral Identificado</p>
-                  <h3 style={{ fontSize: '3rem', margin: 0, fontWeight: 800 }}>{report.overallUptime}</h3>
-                  <p style={{ color: 'var(--color-gray-300)', fontSize: '0.9rem', marginTop: '0.5rem' }}>Ativo: {report.vessel}</p>
-                </div>
-
-                <h4 style={{ color: 'var(--color-navy)', marginBottom: '1rem', fontSize: '1.1rem' }}>Métricas Extraídas</h4>
-                <div className="metric-grid" style={{ marginBottom: '2rem' }}>
-                  {report.metrics.map((m, idx) => (
-                    <div className="metric-card" key={idx}>
-                      <div className="metric-icon">{m.icon}</div>
-                      <div className="metric-info">
-                        <h5>{m.label}</h5>
-                        <p>{m.value}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="report-section">
-                  <h4>Insights do Gemini Pro</h4>
-                  <ul style={{ paddingLeft: '1.5rem', color: 'var(--color-gray-700)' }}>
-                    {report.insights.map((insight, idx) => (
-                      <li key={idx} style={{ marginBottom: '0.5rem', lineHeight: '1.5' }}>
-                        {insight}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginTop: '2rem' }}>
-                  <button className="btn-secondary" onClick={resetForm}>
-                    Nova Análise
-                  </button>
-                  <button className="btn-primary">
-                    <UploadCloud size={20} />
-                    Sincronizar com BigQuery
-                  </button>
+                <div className="report-meta">
+                  <span>Documento: <strong>{report.documentId}</strong> ({file?.name})</span>
+                  <span>Processado em: {report.processedAt}</span>
                 </div>
               </div>
-            )}
-          </div>
 
-          {/* Sidebar Area - Removed per request */}
+              {/* Big Uptime KPI */}
+              <div className="kpi-hero">
+                <p className="kpi-label">Uptime Geral Identificado</p>
+                <h3 className="kpi-value">{report.overallUptime}</h3>
+                <p className="kpi-vessel">Ativo: {report.vessel}</p>
+              </div>
 
+              {/* Metrics Grid */}
+              <h4 className="section-title">Métricas Extraídas</h4>
+              <div className="metric-grid">
+                {report.metrics.map((m, idx) => (
+                  <div className="metric-card" key={idx}>
+                    <div className="metric-icon">{m.icon}</div>
+                    <div className="metric-info">
+                      <h5>{m.label}</h5>
+                      <p>{m.value}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Insights */}
+              <div className="report-section">
+                <h4>Insights do Gemini Pro</h4>
+                <ul className="insights-list">
+                  {report.insights.map((insight, idx) => (
+                    <li key={idx}>{insight}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="workspace-actions">
+                <button className="btn-secondary" onClick={resetForm}>
+                  Nova Análise
+                </button>
+                <button className="btn-primary">
+                  <UploadCloud size={20} />
+                  Sincronizar com BigQuery
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </main>
+
+      {/* ========== FOOTER ========== */}
+      <footer className="footer">
+        <img src="/foresea-logo.svg" alt="Foresea" className="footer-logo" />
+        <p>© 2026 Foresea · Perfuração Offshore · Uptime Operacional POC</p>
+      </footer>
     </div>
   );
 }
