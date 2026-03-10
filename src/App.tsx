@@ -84,7 +84,7 @@ function App() {
       {/* ========== HEADER ========== */}
       <header className="header">
         <div className="logo-container">
-          <img src="/foresea-logo.svg" alt="Foresea" className="header-logo" />
+          <img src="/foresea-logo.png" alt="Foresea" className="header-logo" />
         </div>
         <nav className="header-nav">
           <span className="nav-label active">Uptime Operacional</span>
@@ -273,7 +273,7 @@ function App() {
 
       {/* ========== FOOTER ========== */}
       <footer className="footer">
-        <img src="/foresea-logo.svg" alt="Foresea" className="footer-logo" />
+        <img src="/foresea-logo.png" alt="Foresea" className="footer-logo" />
         <p>© 2026 Foresea · Perfuração Offshore · Uptime Operacional POC</p>
       </footer>
     </div>
