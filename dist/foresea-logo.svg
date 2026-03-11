@@ -1,0 +1,531 @@
+
+<!DOCTYPE html>
+<html lang="pt-br" dir="ltr" class="h-100">
+
+    <head>
+
+
+        <!-- Google Tag Manager -->
+        <script>
+        (function(w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start': new Date().getTime(),
+                event: 'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s),
+                dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-NWJM3Z9');
+        </script>
+        <!-- End Google Tag Manager -->
+
+        <meta charset="utf-8" />
+<meta name="Generator" content="Drupal 10 (https://www.drupal.org)" />
+<meta name="MobileOptimized" content="width" />
+<meta name="HandheldFriendly" content="true" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="icon" href="/sites/default/files/Favicon.jpg" type="image/jpeg" />
+
+            <title>Page not found | Foresea</title>
+            <link rel="stylesheet" media="all" href="/sites/default/files/css/css_87GMcmxT1ib8ziQiU2KUAnTDFtZQV6iP-KGslA9LigM.css" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_mVkm2B4RYRfSegCmyucjpLFvjgVg1Kz-I7TK60um33Y.css" />
+<link rel="stylesheet" media="all" href="/themes/meu_tema_bootstrap/bootstrap4/css/fonts-google.css?family=Syne%3Awght%40400%3B500%3B600%3B700%3B800&amp;display=swap&amp;tb4wu5" />
+<link rel="stylesheet" media="all" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_kXjwTllsTnEjJQjz7ifWLQUMXySphT5SfsuRTDfXetA.css" />
+
+                
+             <meta name="emx-lgpsite-id" content="1" /> 
+    </head>
+    <body class="path-wp-content    bg- d-flex flex-column h-100">
+                <a href="#main-content" class="visually-hidden focusable skip-link">
+            Skip to main content
+        </a>
+        
+          <div class="dialog-off-canvas-main-canvas d-flex flex-column h-100" data-off-canvas-main-canvas>
+    
+
+
+
+<header>
+    
+
+        <nav class="navbar navbar-expand-lg navbar- text-dark bg-">
+        <div class="container container-expanded row mx-auto">
+            <div class="col-auto p-0 ">
+                  <div class="region region-nav-branding">
+    <div id="block-foresea-site-branding" class="block block-system block-system-branding-block">
+  
+    
+  <div class="navbar-brand d-flex align-items-center">
+
+    <a href="/pt-br" title="Home" rel="home" class="site-logo d-block">
+    <img src="/sites/default/files/Grupo%20200.png" alt="Home" />
+  </a>
+  
+  <div>
+    
+      </div>
+</div>
+</div>
+
+  </div>
+
+            </div>
+
+            <div class="col-3 col-md-auto p-0 text-right">
+                <button class="navbar-toggler collapsed" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse header-geral" id="navbarSupportedContent">
+                <div class="d-sm-none logo-collapsed">
+                    <div class="col-auto p-0">
+                          <div class="region region-nav-branding">
+    <div id="block-foresea-site-branding" class="block block-system block-system-branding-block">
+  
+    
+  <div class="navbar-brand d-flex align-items-center">
+
+    <a href="/pt-br" title="Home" rel="home" class="site-logo d-block">
+    <img src="/sites/default/files/Grupo%20200.png" alt="Home" />
+  </a>
+  
+  <div>
+    
+      </div>
+</div>
+</div>
+
+  </div>
+
+                    </div>
+
+                    <div class="col-3 col-md-auto p-0 text-right">
+                        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse"
+                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="menu-header">
+                                        <a href="https://investors.foresea.com/" target="_blank">
+                        <button class="btn-white">Investidores <img
+                                src="/sites/default/files/images/arrow-button.svg" alt=""></button>
+                    </a>
+                    <a href="https://www.canaldeetica.com.br/foresea/" target="_blank">
+                        <p>Canal de Ética</p>
+                    </a>
+                    <a href="https://foresea.techsocial.com.br/grupos.php?pagina=empresas&id=100444&ac=emp_ctgview"
+                        target="_blank">
+                        <p>Fornecedores</p>
+                    </a>
+                    <a href="/imprensa">
+                        <p>Imprensa</p>
+                    </a>
+                    <div class="social-header d-none d-sm-flex">
+                        <a href="https://www.instagram.com/foresea.offshore/" target="_blank"> <i
+                                class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.facebook.com/foresea.offshore" target="_blank"> <i
+                                class="fab fa-facebook"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/company/foresea-offshore" target="_blank"> <i
+                                class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="https://www.youtube.com/@foresea.offshore" target="_blank"> <i
+                                class="fab fa-youtube"></i>
+                        </a>
+                        <span class="text-white languages"><a href="/home"> PT</a> / <a href="/en/home">EN</a></span>
+                    </div>
+                                    </div>
+                <div class="col-12 col-md-auto p-0">
+                                          <div class="region region-nav-main">
+    <nav role="navigation" aria-labelledby="block-mainnavigation-menu" id="block-mainnavigation" class="block block-menu navigation menu--main">
+            
+  <h5 class="visually-hidden" id="block-mainnavigation-menu">Main navigation</h5>
+  
+
+        
+            <ul class="navbar-nav mr-auto">
+                      <li class="nav-item dropdown">
+            
+      <a href="/pt-br#quem-somos" class="nav-link dropdown-toggle" data-toggle="dropdown" title="Expand menu A Foresea" aria-haspopup="true" aria-expanded="false" data-drupal-link-system-path="&lt;front&gt;">A Foresea</a>
+                <ul class="dropdown-menu">
+                      <li class="nav-item">
+      
+      <a href="/pt-br#quem-somos" class="dropdown-item" data-drupal-link-system-path="&lt;front&gt;">Quem somos</a>
+    </li>
+
+                  <li class="nav-item">
+      
+      <a href="/pt-br#proposito" class="dropdown-item" data-drupal-link-system-path="&lt;front&gt;">Propósito</a>
+    </li>
+
+                  <li class="nav-item">
+      
+      <a href="/pt-br/inovacao" class="dropdown-item" data-drupal-link-system-path="node/64">Inovação</a>
+    </li>
+
+                  <li class="nav-item">
+      
+      <a href="/sites/default/files/docs/foresea-ra23-pt.pdf" class="dropdown-item">Relatório Anual 2023</a>
+    </li>
+
+                  <li class="nav-item">
+      
+      <a href="/sites/default/files/docs/foresea-ra24-pt.pdf" class="dropdown-item">Relatório Anual 2024</a>
+    </li>
+
+        </ul>
+  
+    </li>
+
+                  <li class="nav-item dropdown">
+            
+      <a href="/pt-br/perfuracao-offshore" class="nav-link dropdown-toggle" data-toggle="dropdown" title="Expand menu Perfuração Offshore" aria-haspopup="true" aria-expanded="false" data-drupal-link-system-path="node/29">Perfuração Offshore</a>
+                <ul class="dropdown-menu">
+                      <li class="nav-item">
+      
+      <a href="/pt-br/perfuracao-offshore" class="dropdown-item" data-drupal-link-system-path="node/29">Nossos Ativos</a>
+    </li>
+
+                  <li class="nav-item">
+      
+      <a href="/pt-br/ativos-de-terceiros" class="dropdown-item" data-drupal-link-system-path="node/93">Ativos de Terceiros</a>
+    </li>
+
+        </ul>
+  
+    </li>
+
+                  <li class="nav-item dropdown">
+            
+      <a href="/pt-br/sustentabilidade" class="nav-link dropdown-toggle" data-toggle="dropdown" title="Expand menu Sustentabilidade" aria-haspopup="true" aria-expanded="false" data-drupal-link-system-path="node/6">Sustentabilidade</a>
+                <ul class="dropdown-menu">
+                      <li class="nav-item">
+      
+      <a href="/pt-br/sustentabilidade#principios" class="dropdown-item" data-drupal-link-system-path="node/6">Princípios</a>
+    </li>
+
+                  <li class="nav-item">
+      
+      <a href="/pt-br/sustentabilidade#saude-e-seguranca" class="dropdown-item" data-drupal-link-system-path="node/6">Saúde e Segurança</a>
+    </li>
+
+                  <li class="nav-item">
+      
+      <a href="/pt-br/sustentabilidade#meio-ambiente" class="dropdown-item" data-drupal-link-system-path="node/6">Meio Ambiente</a>
+    </li>
+
+                  <li class="nav-item">
+      
+      <a href="/pt-br/sustentabilidade#responsabilidade-socioambiental" class="dropdown-item" data-drupal-link-system-path="node/6">Resp. Socioambiental</a>
+    </li>
+
+                  <li class="nav-item">
+      
+      <a href="/pt-br/sustentabilidade#compromissos-de-ouro" class="dropdown-item" data-drupal-link-system-path="node/6">Compromissos de Ouro</a>
+    </li>
+
+        </ul>
+  
+    </li>
+
+                  <li class="nav-item dropdown">
+            
+      <a href="/pt-br/governanca" class="nav-link dropdown-toggle" data-toggle="dropdown" title="Expand menu Governança" aria-haspopup="true" aria-expanded="false" data-drupal-link-system-path="node/4">Governança</a>
+                <ul class="dropdown-menu">
+                      <li class="nav-item">
+      
+      <a href="/pt-br/governanca#diretoria-executiva" class="dropdown-item" data-drupal-link-system-path="node/4">Diretoria Executiva</a>
+    </li>
+
+                  <li class="nav-item">
+      
+      <a href="/pt-br/governanca#politicas-foresea" class="dropdown-item" data-drupal-link-system-path="node/4">Políticas Foresea</a>
+    </li>
+
+        </ul>
+  
+    </li>
+
+                  <li class="nav-item dropdown">
+            
+      <a href="/pt-br/conformidade" class="nav-link dropdown-toggle" data-toggle="dropdown" title="Expand menu Conformidade" aria-haspopup="true" aria-expanded="false" data-drupal-link-system-path="node/23">Conformidade</a>
+                <ul class="dropdown-menu">
+                      <li class="nav-item">
+      
+      <a href="/pt-br/conformidade#compromisso-conformidade" class="dropdown-item" data-drupal-link-system-path="node/23">Compromisso Foresea</a>
+    </li>
+
+                  <li class="nav-item">
+      
+      <a href="/pt-br/conformidade#sistema-conformidade" class="dropdown-item" data-drupal-link-system-path="node/23">Sistema de Conformidade</a>
+    </li>
+
+                  <li class="nav-item">
+      
+      <a href="/pt-br/conformidade#documentos-normativos" class="dropdown-item" data-drupal-link-system-path="node/23">Documentos Normativos</a>
+    </li>
+
+                  <li class="nav-item">
+      
+      <a href="/pt-br/conformidade#canal-de-etica" class="dropdown-item" data-drupal-link-system-path="node/23">Canal de Ética</a>
+    </li>
+
+                  <li class="nav-item">
+      
+      <a href="/pt-br/conformidade#legislacao" class="dropdown-item" data-drupal-link-system-path="node/23">Legislação</a>
+    </li>
+
+        </ul>
+  
+    </li>
+
+                  <li class="nav-item dropdown">
+            
+      <a href="/pt-br/pessoas" class="nav-link dropdown-toggle" data-toggle="dropdown" title="Expand menu Pessoas" aria-haspopup="true" aria-expanded="false" data-drupal-link-system-path="node/33">Pessoas</a>
+                <ul class="dropdown-menu">
+                      <li class="nav-item">
+      
+      <a href="/pt-br/pessoas#team-foresea" class="dropdown-item" data-drupal-link-system-path="node/33">Team Foresea</a>
+    </li>
+
+                  <li class="nav-item">
+      
+      <a href="/pt-br/pessoas#nossa-cultura" class="dropdown-item" data-drupal-link-system-path="node/33">Nossa Cultura</a>
+    </li>
+
+                  <li class="nav-item">
+      
+      <a href="/pt-br/pessoas#programa-diversidade" class="dropdown-item" data-drupal-link-system-path="node/33">Diversidade</a>
+    </li>
+
+                  <li class="nav-item">
+      
+      <a href="/pt-br/pessoas#oportunidades-de-inicio" class="dropdown-item" data-drupal-link-system-path="node/33">Programas de Entrada</a>
+    </li>
+
+                  <li class="nav-item">
+      
+      <a href="/pt-br/pessoas#nossas-vagas" class="dropdown-item" data-drupal-link-system-path="node/33">Nossas Vagas</a>
+    </li>
+
+                  <li class="nav-item">
+      
+      <a href="/pt-br/pessoas#beneficios-e-boas-praticas" class="dropdown-item" data-drupal-link-system-path="node/33">Benefícios</a>
+    </li>
+
+        </ul>
+  
+    </li>
+
+                  <li class="nav-item">
+      
+      <a href="/pt-br#news" class="nav-link" data-drupal-link-system-path="&lt;front&gt;">Notícias</a>
+    </li>
+
+                  <li class="nav-item">
+      
+      <a href="/pt-br/contato" class="nav-link" data-drupal-link-system-path="node/8">Contato</a>
+    </li>
+
+        </ul>
+  
+
+
+
+  </nav>
+
+  </div>
+
+                                    </div>
+                <div class="d-sm-none social-header">
+                    <a href="https://www.instagram.com/foresea.offshore/" target="_blank"> <i
+                            class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://www.facebook.com/foresea.offshore" target="_blank"> <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/company/foresea-offshore" target="_blank"> <i
+                            class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://www.youtube.com/@foresea.offshore" target="_blank"> <i class="fab fa-youtube"></i>
+                    </a>
+                    <span class="text-white languages"><a href="/home"> PT</a> / <a href="en/home">EN</a></span>
+
+                </div>
+            </div>
+
+        </div>
+    </nav>
+    
+    <img class="selo-1-ano" src="/sites/default/files/images/selo-peo.webp" alt="">
+
+</header>
+
+<main role="main">
+    <a id="main-content" tabindex="-1"></a>
+    
+    
+    
+
+    <div>
+                <!--   <div class="region region-breadcrumb">
+    <div id="block-foresea-breadcrumbs" class="block block-system block-system-breadcrumb-block">
+  
+    
+        <nav role="navigation" aria-labelledby="system-breadcrumb">
+    <h2 id="system-breadcrumb" class="visually-hidden">Breadcrumb</h2>
+    <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+                  <a href="/pt-br">Home</a>
+              </li>
+        </ol>
+  </nav>
+
+  </div>
+
+  </div>
+ -->
+                <div class="row no-gutters">
+                        <div class="order-1 order-lg-2 col-12">
+                  <div class="region region-content">
+    <div data-drupal-messages-fallback class="hidden"></div><div id="block-foresea-content" class="block block-system block-system-main-block">
+  
+    
+      The requested page could not be found.
+  </div>
+
+  </div>
+
+            </div>
+                    </div>
+    </div>
+    <!-- Início do aviso de consentimento de cookies OneTrust para foresea.com -->
+
+
+
+    <!-- <script src="https://lgpdsuporteemx.nuvemx.com.br/Cookies/emx-inject-CSP.js?website_code=28" class="emx-cookie">
+    </script> -->
+    <script src="https://lgpdforesea.nuvemx.com.br/Cookies/emx-inject-CSP.js?website_code=1" class="emx-cookie">
+    </script>
+
+    <!-- Final do aviso de consentimento de cookies OneTrust para foresea.com -->
+</main>
+
+<!-- <footer class="mt-auto   footer- text-dark bg-">
+    <div class="">
+          <div class="region region-footer">
+    <nav role="navigation" aria-labelledby="block-footer-menu" id="block-footer" class="block block-menu navigation menu--footer">
+      
+  <h5 id="block-footer-menu">Footer</h5>
+  
+
+        
+              <ul class="nav navbar-nav">
+              
+            
+      <li class="nav-item">
+        <a href="/pt-br/contact" class="nav-link" data-drupal-link-system-path="contact">Contact</a>
+              </li>
+        </ul>
+  
+
+
+  </nav>
+
+  </div>
+
+    </div>
+</footer> -->
+
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <a href="/home"><img class="logo" src="/sites/default/files/images/logo.svg" alt=""></a>
+                <div class="social">
+                    <a href="https://www.instagram.com/foresea.offshore/" target="_blank"> <i
+                            class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://www.facebook.com/foresea.offshore" target="_blank"> <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/company/foresea-offshore" target="_blank"> <i
+                            class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://www.youtube.com/@foresea.offshore" target="_blank"> <i class="fab fa-youtube"></i>
+                    </a>
+                </div>
+            </div>
+                        <div class="col-md-3">
+                <a href="https://investors.foresea.com/" target="_blank">
+                    <button class="btn-white">Investidores <img src="/sites/default/files/images/arrow-button.svg"
+                            alt=""></button>
+                </a>
+                <a href="https://www.canaldeetica.com.br/foresea/">
+                    <p>Canal de Ética</p>
+                </a>
+                <a href="https://foresea.techsocial.com.br/grupos.php?pagina=empresas&id=100444&ac=emp_ctgview"
+                    target="_blank">
+                    <p>Fornecedores</p>
+                </a>
+                <a href="/imprensa">
+                    <p>Imprensa</p>
+                </a>
+
+            </div>
+            <div class="col-md-3">
+                <a href="/home/#quem-somos">
+                    <p>A Foresea</p>
+                </a>
+                <a href="/perfuracao-offshore">
+                    <p>Perfuração Offshore</p>
+                </a>
+                <a href="/sustentabilidade">
+                    <p>Sustentabilidade</p>
+                </a>
+                <a href="/governanca">
+                    <p>Governança</p>
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="/conformidade">
+                    <p>Conformidade</p>
+                </a>
+                <a href="/pessoas">
+                    <p>Pessoas</p>
+                </a>
+                <a href="/home/#news">
+                    <p>Notícias</p>
+                </a>
+                <a href="/contato">
+                    <p>Contato</p>
+                </a>
+            </div>
+                    </div>
+
+    </div>
+</footer>
+
+  </div>
+
+        
+        <script src="/sites/default/files/js/js_bfSznsPUVtgKx9FsO-ETgPAbtpa-Eq4qj0R0tkF3MRM.js"></script>
+
+
+            <!-- Google Tag Manager (noscript) -->
+            <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NWJM3Z9" height="0" width="0"
+                    style="display:none;visibility:hidden"></iframe></noscript>
+            <!-- End Google Tag Manager (noscript) -->
+
+            </body>
+
+            </html>
