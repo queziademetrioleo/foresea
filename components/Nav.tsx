@@ -25,7 +25,8 @@ export default function Nav() {
 
             <div className="nav-links">
                 <Link
-                    href="/dashboard"
+                    href="https://foresea-dashboard.streamlit.app/"
+                    target="_blank"
                     className={`nav-link ${path === '/dashboard' ? 'active' : ''}`}
                 >
                     <LayoutDashboard size={16} />
