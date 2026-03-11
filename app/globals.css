@@ -68,9 +68,9 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 0 40px;
-  background: rgba(255, 255, 255, 0.92);
+  background: var(--blue-brand);
   backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: var(--shadow-sm);
 }
 
@@ -82,21 +82,22 @@ body {
 }
 
 .nav-logo img {
-  height: 40px;
+  height: 38px;
   width: auto;
   object-fit: contain;
-  /* blend removes the white bg of the PNG on white nav */
-  mix-blend-mode: multiply;
+  /* Make the logo white for the dark navy background */
+  filter: brightness(0) invert(1);
 }
 
 .nav-app-name {
   font-size: 13px;
   font-weight: 600;
-  color: var(--text-secondary);
+  color: white;
+  opacity: 0.8;
   letter-spacing: 0.5px;
   text-transform: uppercase;
   padding-left: 12px;
-  border-left: 2px solid var(--border);
+  border-left: 2px solid rgba(255, 255, 255, 0.2);
   margin-left: 4px;
 }
 
@@ -111,7 +112,7 @@ body {
   text-decoration: none;
   font-size: 13px;
   font-weight: 500;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.7);
   transition: all var(--transition);
   display: flex;
   align-items: center;
@@ -119,14 +120,15 @@ body {
 }
 
 .nav-link:hover {
-  color: var(--blue-brand);
-  background: rgba(0, 173, 239, 0.08);
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .nav-link.active {
-  color: var(--blue-sky);
-  background: rgba(0, 173, 239, 0.1);
+  color: #fff;
+  background: var(--blue-sky);
   font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 173, 239, 0.3);
 }
 
 /* ── MAIN ─────────────────────────────────────────── */
