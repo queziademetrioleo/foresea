@@ -235,7 +235,7 @@ export default function UploadPage() {
             {/* Hero Header */}
             <div className="hero-section">
                 <img
-                    src="https://foresea.com/wp-content/uploads/2023/06/logo_menu.svg"
+                    src="/foresea-logo.png"
                     alt="Foresea"
                     className="hero-logo"
                 />

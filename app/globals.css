@@ -82,8 +82,11 @@ body {
 }
 
 .nav-logo img {
-  height: 36px;
+  height: 40px;
   width: auto;
+  object-fit: contain;
+  /* blend removes the white bg of the PNG on white nav */
+  mix-blend-mode: multiply;
 }
 
 .nav-app-name {
@@ -163,10 +166,13 @@ body {
 
 .hero-logo {
   display: block;
-  height: 52px;
+  height: 56px;
   width: auto;
-  margin: 0 auto 32px;
+  margin: 0 auto 36px;
+  /* Invert the dark colors to white for the dark hero background */
   filter: brightness(0) invert(1);
+  /* Re-tint: keeps the cyan/green bars visible */
+  /* We use a simpler approach: full white logo on dark bg */
 }
 
 .hero-title {

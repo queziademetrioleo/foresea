@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 80" fill="none">
+  <!-- Logo Mark: 3 overlapping diagonal bars (F shape) -->
+  <!-- Top bar: Cyan -->
+  <rect x="0" y="4" width="52" height="14" rx="4" fill="#00ADEF" transform="rotate(-8, 0, 11)"/>
+  <!-- Middle bar: Green Mint -->
+  <rect x="4" y="24" width="46" height="14" rx="4" fill="#00D094" transform="rotate(-8, 4, 31)"/>
+  <!-- Bottom bar: White (on dark bg) -->
+  <rect x="8" y="44" width="40" height="14" rx="4" fill="#FFFFFF" transform="rotate(-8, 8, 51)"/>
+
+  <!-- Wordmark: Foresea in white -->
+  <text x="78" y="52" font-family="Poppins, system-ui, sans-serif" font-size="36" font-weight="700" fill="#FFFFFF" letter-spacing="-1">Foresea</text>
+</svg>

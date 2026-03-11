@@ -9,16 +9,10 @@ export default function Nav() {
     return (
         <nav className="nav">
             <Link href="/upload" className="nav-logo">
-                {/* Official Foresea SVG logo from CDN */}
                 <img
-                    src="https://foresea.com/wp-content/uploads/2023/06/logo_menu.svg"
+                    src="/foresea-logo.png"
                     alt="Foresea"
-                    className="nav-logo-img"
-                    style={{ height: 32 }}
-                    onError={(e) => {
-                        // Fallback: text logo
-                        (e.target as HTMLImageElement).style.display = 'none';
-                    }}
+                    style={{ height: 36, width: 'auto', objectFit: 'contain' }}
                 />
                 <span className="nav-app-name">Uptime Operacional</span>
             </Link>
