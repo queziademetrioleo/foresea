@@ -133,8 +133,8 @@ Retorne exatamente esta estrutura, sem campos adicionais fora dela:
 `;
 
 export async function extractDataFromPDF(pdfBuffer: Buffer): Promise<Record<string, unknown>> {
-  // gemini-2.5-pro supports multimodal inputs (images, pdfs)
-  const model = genAI.getGenerativeModel({ model: 'gemini-2.5-pro' });
+  // gemini-2.5-flash supports multimodal inputs (images, pdfs)
+  const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
   const pdfPart = {
     inlineData: {
