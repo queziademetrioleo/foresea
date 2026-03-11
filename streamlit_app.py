@@ -6,6 +6,7 @@ from sqlalchemy import create_engine
 import io
 try:
     from fpdf import FPDF
+    from fpdf.enums import XPos, YPos
 except ImportError:
     st.error("Biblioteca 'fpdf2' não encontrada. Por favor, execute: pip install fpdf2")
     st.stop()
@@ -49,6 +50,18 @@ st.markdown("""
         margin-top: -10px;
         margin-bottom: 30px;
     }
+    /* Degradê na Barra Lateral - Azul Ultra Dominante */
+    [data-testid="stSidebar"] {
+        background-image: linear-gradient(180deg, 
+            #1A1D56 0%, 
+            #1A1D56 85%, 
+            #1DD693 96%, 
+            #10C1FF 100%) !important;
+    }
+    /* Garantir legibilidade dos textos na sidebar (Branco sobre Azul) */
+    [data-testid="stSidebar"] .stMarkdown, [data-testid="stSidebar"] p, [data-testid="stSidebar"] h3, [data-testid="stSidebar"] label {
+        color: #FFFFFF !important;
+    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -76,9 +89,11 @@ if df.empty:
     st.warning("Aguardando inserção de dados via Gemini (Upload)...")
     st.stop()
 
+
 # ----- SIDEBAR / FILTROS -----
 with st.sidebar:
-    st.image("https://foresea.com/wp-content/uploads/2023/06/logo_menu.svg", width=180)
+    st.image("public/foresea-logo.png", width=180)
+    st.markdown("<br>", unsafe_allow_html=True)
     st.markdown("### 📊 Operações de Sondas")
     st.write("Selecione os parâmetros de extração para o dashboard:")
     
@@ -153,10 +168,10 @@ tarifas_config = [
     {"label": "101 Operating Hours", "peso": 1.0, "cols": ["clausula_101"]},
     {"label": "105 Moving", "peso": 0.9, "cols": ["clausula_105"]},
     {"label": "104.1.a Stand-by Weather", "peso": 0.9, "cols": ["clausula_107"]},
-    {"label": "104.1.b Stand-by Petrobras", "peso": 0.9, "cols": ["clausula_104_1a", "clausula_104_1c", "clausula_104_1d"]},
-    {"label": "104.1.b Docagem Rem", "peso": 0.9, "cols": []},
-    {"label": "102 Repair/211+", "peso": 0.0, "cols": ["clausula_102"]},
-    {"label": "222 Reduced/Bonus", "peso": 0.0, "cols": []}
+    {"label": "104.1.b Stand-by Petrobras", "peso": 0.9, "cols": ["clausula_104_1a", "clausula_104_1b", "clausula_104_1c", "clausula_104_1d", "clausula_104_2", "clausula_104_2b", "clausula_104_2c"]},
+    {"label": "104.1.b Docagem Remunerada", "peso": 0.9, "cols": []},
+    {"label": "102 Repair, 211, 214 or 215 Rate", "peso": 0.0, "cols": ["clausula_102", "clausula_2_1_1"]},
+    {"label": "222 Reduced Rate / Bonus", "peso": 0.0, "cols": ["outras_clausulas"]}
 ]
 
 if not filtered_df.empty:
@@ -165,8 +180,12 @@ if not filtered_df.empty:
     uptime_eq_avg_sum = 0
     for sonda in sondas_ativas:
         df_sonda = filtered_df[filtered_df['sonda'] == sonda]
-        dias_sonda = len(df_sonda['data_registro'].unique())
-        total_horas_possiveis = dias_sonda * 24.0
+        
+        # Denominador: Soma de TODAS as cláusulas reportadas
+        total_horas_clausulas = df_sonda[all_clausula_cols].sum().sum()
+        if total_horas_clausulas == 0:
+            total_horas_clausulas = 1.0  # Evitar divisão por zero
+            
         horas_operacionais = 0
         horas_equivalentes = 0
         for tarifa in tarifas_config:
@@ -175,24 +194,35 @@ if not filtered_df.empty:
                 if col in df_sonda.columns:
                     soma_horas = df_sonda[col].fillna(0).sum()
                     soma_tarifa += soma_horas
+            
+            # Numerador Availability: Soma das cláusulas com peso > 0
             if tarifa["peso"] > 0:
                 horas_operacionais += soma_tarifa
+                
+            # Numerador Uptime Eq: Soma das cláusulas multiplicadas pelo peso
             horas_eq_parcial = soma_tarifa * tarifa["peso"]
             horas_equivalentes += horas_eq_parcial
+            
             if horas_eq_parcial > 0:
                  composicao_horas.append({
                      "Sonda": sonda,
                      "Categoria": f"{tarifa['label']} ({int(tarifa['peso']*100)}%)",
                      "Horas Faturadas (Eq)": horas_eq_parcial
                  })
-        perc_availability = (horas_operacionais / total_horas_possiveis * 100) if total_horas_possiveis > 0 else 0
-        perc_uptime_eq = (horas_equivalentes / total_horas_possiveis * 100) if total_horas_possiveis > 0 else 0
+        # Cálculos originais (comentados para manter a lógica caso deseje retornar)
+        # perc_availability = (horas_operacionais / total_horas_clausulas * 100)
+        # perc_uptime_eq = (horas_equivalentes / total_horas_clausulas * 100)
+        
+        # Valores MOCADOS conforme solicitação do usuário
+        perc_availability = 94.7
+        perc_uptime_eq = 92.5
+        
         dados_sonda.append({"Sonda": sonda, "Operational Availability": perc_availability, "Uptime 101 Equivalent": perc_uptime_eq})
         availability_avg_sum += perc_availability
         uptime_eq_avg_sum += perc_uptime_eq
     count_sondas = len(sondas_ativas)
-    mean_availability = availability_avg_sum / count_sondas if count_sondas > 0 else 0
-    mean_uptime_eq = uptime_eq_avg_sum / count_sondas if count_sondas > 0 else 0
+    mean_availability = 94.7 # availability_avg_sum / count_sondas if count_sondas > 0 else 0
+    mean_uptime_eq = 92.5   # uptime_eq_avg_sum / count_sondas if count_sondas > 0 else 0
     linhas_dados = []
     for tarifa in tarifas_config:
         linha_atual = {"Current Month (hours)": f"{tarifa['label']} ({int(tarifa['peso']*100)}%)"}
@@ -252,19 +282,19 @@ def generate_pdf_report(title, content_list, orientation='P'):
     
     # Fontes Unicode para suportar acentos
     pdf.set_font("Helvetica", "B", 16)
-    pdf.cell(0, 10, title, ln=True, align='C')
+    pdf.cell(0, 10, title, new_x=XPos.LMARGIN, new_y=YPos.NEXT, align='C')
     pdf.set_font("Helvetica", size=10)
-    pdf.cell(0, 10, f"Gerado em: {pd.Timestamp.now().strftime('%d/%m/%Y %H:%M')}", ln=True, align='C')
+    pdf.cell(0, 10, f"Gerado em: {pd.Timestamp.now().strftime('%d/%m/%Y %H:%M')}", new_x=XPos.LMARGIN, new_y=YPos.NEXT, align='C')
     pdf.ln(5)
 
     for item in content_list:
         if item['type'] == 'text':
             pdf.set_font("Helvetica", "B", 12)
-            pdf.cell(0, 10, item['content'], ln=True)
+            pdf.cell(0, 10, item['content'], new_x=XPos.LMARGIN, new_y=YPos.NEXT)
             pdf.ln(2)
         elif item['type'] == 'metric':
             pdf.set_font("Helvetica", size=11)
-            pdf.cell(0, 8, f"{item['label']}: {item['value']}", ln=True)
+            pdf.cell(0, 8, f"{item['label']}: {item['value']}", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
             pdf.ln(2)
         elif item['type'] == 'table':
             pdf.ln(5)
@@ -299,7 +329,7 @@ with tab2:
         st.caption("Acompanhamento das reservas a bordo (Água e Óleo Diesel)")
         fig_estoque = px.area(
             filtered_df, x='data_registro', y=['oleo_diesel_atual', 'agua_atual'],
-            color_discrete_map={"oleo_diesel_atual": "#16214A", "agua_atual": "#2FA8D8"}
+            color_discrete_map={"oleo_diesel_atual": "#1E293B", "agua_atual": "#3B82F6"}
         )
         
         fig_estoque.for_each_trace(lambda t: t.update(
@@ -325,14 +355,14 @@ with tab2:
             df_diesel, x='data_registro', y=['diesel_consumido_contratada', 'diesel_consumido_petrobras'], 
             barmode='group',
             text="value",
-            color_discrete_map={"diesel_consumido_contratada": "#2EC4B6", "diesel_consumido_petrobras": "#F59E0B"}
+            color_discrete_map={"diesel_consumido_contratada": "#2EC4B6", "diesel_consumido_petrobras": "#94A3B8"}
         )
         
         fig_consumo.for_each_trace(lambda t: t.update(
             hovertemplate="<b>%{x}</b><br>" + ("Foresea" if "contratada" in t.name else "Petrobras") + ": %{y} m³<extra></extra>",
             texttemplate='<b>%{y}</b>',
             textposition='outside',
-            textfont=dict(size=14, color="#1E2A5A")
+            textfont=dict(size=14)
         ))
         
         for trace in fig_consumo.data:
@@ -385,12 +415,12 @@ with tab3:
                 x='Horas Perdidas',
                 orientation='h',
                 text='Horas Perdidas',
-                color_discrete_sequence=['#F59E0B']
+                color_discrete_sequence=['#3B82F6']
             )
             fig_h_bar.update_traces(
                 texttemplate='<b>%{text}h</b>',
                 textposition='outside',
-                textfont=dict(size=14, color="#1E2A5A"),
+                textfont=dict(size=14),
                 hovertemplate="<b>%{y}</b><br>Perda: %{x}h<extra></extra>"
             )
             fig_h_bar.update_layout(
@@ -471,15 +501,15 @@ with tab4:
             barmode="group",
             text="Taxa (%)",
             color_discrete_map={
-                "Operational Availability": "#2FA8D8", # Azul Mais claro (Geralmente maior)
-                "Uptime 101 Equivalent": "#16214A"   # Azul Petro (Sólido, Faturamento)
+                "Operational Availability": "#3B82F6", 
+                "Uptime 101 Equivalent": "#1E293B"
             }
         )
         
         fig_comparativo.update_traces(
             texttemplate='<b>%{text:.1f}%</b>', 
             textposition='outside',
-            textfont=dict(size=18, color="#1E2A5A"), # Ênfase gigantesca no texto
+            textfont=dict(size=18), # Ênfase gigantesca no texto
             hovertemplate="<b>%{x}</b><br>%{data.name}: %{text:.1f}%<extra></extra>"
         )
         fig_comparativo.update_layout(
@@ -629,7 +659,7 @@ with tab6:
                 y=df_day['horas_funcionais_pct'],
                 marker=dict(
                     color=df_day['horas_funcionais_pct'],
-                    colorscale=[[0, '#EF4444'], [0.7, '#F59E0B'], [1.0, '#2EC4B6']],
+                    colorscale=[[0, '#EF4444'], [0.7, '#3B82F6'], [1.0, '#2EC4B6']],
                     cmin=0,
                     cmax=100,
                     showscale=False,
@@ -652,7 +682,7 @@ with tab6:
                     showarrow=False,
                     yanchor='bottom',
                     yshift=5,           
-                    font=dict(size=10, color='#1E2A5A', family='Arial, sans-serif'),
+                    font=dict(size=10, family='Arial, sans-serif'),
                     xref='x',
                     yref='y'
                 )
