@@ -1,8 +1,17 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Allow large PDF uploads (up to 50MB)
-  serverExternalPackages: ['pdf-parse', 'pg'],
+  // Externalize all server-only packages so Turbopack/webpack don't try to bundle them
+  serverExternalPackages: [
+    'pg',
+    'pg-native',
+    'pg-pool',
+    'pg-protocol',
+    'pg-types',
+    'pgpass',
+    'pdf-parse',
+    'pdfjs-dist',
+  ],
   experimental: {
     serverActions: {
       bodySizeLimit: '50mb',
