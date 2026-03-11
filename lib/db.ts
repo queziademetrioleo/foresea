@@ -1,58 +1,45 @@
-import { Pool, PoolConfig } from 'pg';
+import postgres from 'postgres';
 
-// Prevent pg from trying to load pg-native (not available in Cloud Functions)
-// This avoids the ERR_MODULE_NOT_FOUND for pg-native
-process.env.NODE_PG_FORCE_NATIVE = '0';
+// postgres.js: pure ESM, no native deps, Turbopack-compatible
+// Replaces `pg` which has native bindings incompatible with Next.js 16 Turbopack
 
-let pool: Pool | null = null;
+let sql: ReturnType<typeof postgres> | null = null;
 
-function buildConfig(): PoolConfig {
-  // Support both individual vars and DATABASE_URL
+function createClient() {
   if (process.env.DATABASE_URL) {
-    return {
-      connectionString: process.env.DATABASE_URL,
-      ssl: { rejectUnauthorized: false },
+    return postgres(process.env.DATABASE_URL, {
+      ssl: 'require',
       max: 5,
-      idleTimeoutMillis: 30000,
-      connectionTimeoutMillis: 10000,
-    };
+      idle_timeout: 30,
+      connect_timeout: 10,
+    });
   }
 
-  return {
+  return postgres({
     host: process.env.DATABASE_HOST,
     port: parseInt(process.env.DATABASE_PORT || '5432'),
     database: process.env.DATABASE_NAME,
-    user: process.env.DATABASE_USER,
+    username: process.env.DATABASE_USER,
     password: process.env.DATABASE_PASSWORD,
     ssl: { rejectUnauthorized: false },
-    max: 5,                       // Lower for serverless environments
-    idleTimeoutMillis: 30000,
-    connectionTimeoutMillis: 10000,
-  };
+    max: 5,
+    idle_timeout: 30,
+    connect_timeout: 10,
+  });
 }
 
-export function getPool(): Pool {
-  if (!pool) {
-    pool = new Pool(buildConfig());
-
-    // Log connection errors without crashing
-    pool.on('error', (err) => {
-      console.error('[DB] Unexpected pool error:', err.message);
-      pool = null; // Force reconnect on next call
-    });
+export function getSql(): ReturnType<typeof postgres> {
+  if (!sql) {
+    sql = createClient();
   }
-  return pool;
+  return sql;
 }
 
+// Compatibility: generic query interface used by mappers.ts
 export async function query(text: string, params?: unknown[]) {
-  const client = await getPool().connect();
-  try {
-    const result = await client.query(text, params);
-    return result;
-  } catch (err) {
-    console.error('[DB] Query error:', err);
-    throw err;
-  } finally {
-    client.release();
-  }
+  const client = getSql();
+  // postgres.js uses tagged template literals, but supports raw query via unsafe()
+  const result = await client.unsafe(text, (params ?? []) as postgres.ParameterOrFragment<any>[]);
+  // Mimic pg's result shape
+  return { rows: result as any[], rowCount: (result as any[]).length };
 }

@@ -1,14 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Externalize all server-only packages so Turbopack/webpack don't try to bundle them
   serverExternalPackages: [
-    'pg',
-    'pg-native',
-    'pg-pool',
-    'pg-protocol',
-    'pg-types',
-    'pgpass',
+    'postgres',
     'pdf-parse',
     'pdfjs-dist',
   ],
