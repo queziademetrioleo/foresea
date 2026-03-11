@@ -1,21 +1,19 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Solução Definitiva: Desativa otimizações agressivas do Turbopack 
-  // que geram os erros de "Módulo não encontrado" (pg-xxxx)
-  output: 'standalone',
+  // ATENÇÃO: Mudança crítica para resolver o erro de "Módulo não encontrado"
+  // Removendo 'serverExternalPackages'. Isso força o Next.js a incluir 
+  // o driver de banco de dados diretamente no pacote (bundle).
+  // Como estamos usando o 'postgres.js' (que é JS puro), isso vai funcionar.
   
-  // Força o Next.js a tratar o PG como um pacote externo real (sem chunking)
-  serverExternalPackages: ['pg'],
+  output: 'standalone',
 
   experimental: {
-    // Garante que o build de produção use as convenções estáveis do Node.js
     serverActions: {
       bodySizeLimit: '50mb',
     },
   },
 
-  // Suprime erros de build para garantir que o deploy prossiga
   typescript: { ignoreBuildErrors: true },
   eslint: { ignoreDuringBuilds: true },
 };
