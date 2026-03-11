@@ -342,7 +342,7 @@ with tab2:
             margin=dict(l=0, r=0, t=30, b=0),
             legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="center", x=0.5)
         )
-        st.plotly_chart(fig_estoque, use_container_width=True, config={'displayModeBar': False})
+        st.plotly_chart(fig_estoque, use_container_width=True, config={'displayModeBar': False}, key="chart_estoque")
 
     with c2:
         st.subheader("Impacto de Diesel Diário")
@@ -374,7 +374,7 @@ with tab2:
             margin=dict(l=0, r=0, t=30, b=0),
             legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="center", x=0.5)
         )
-        st.plotly_chart(fig_consumo, use_container_width=True, config={'displayModeBar': False})
+        st.plotly_chart(fig_consumo, use_container_width=True, config={'displayModeBar': False}, key="chart_consumo")
 
     st.download_button(
         "📥 Baixar Relatório PDF (Insumos)",
@@ -430,7 +430,7 @@ with tab3:
                 yaxis_title="",
                 xaxis=dict(showticklabels=False, showgrid=False, zeroline=False)
             )
-            st.plotly_chart(fig_h_bar, use_container_width=True, config={'displayModeBar': False})
+            st.plotly_chart(fig_h_bar, use_container_width=True, config={'displayModeBar': False}, key="chart_perdas")
             
         else:
             st.success("Nenhuma cláusula de penalidade acionada.")
@@ -526,7 +526,7 @@ with tab4:
              )
         )
         # Deixar a config do hover limpa
-        st.plotly_chart(fig_comparativo, use_container_width=True, config={'displayModeBar': False})
+        st.plotly_chart(fig_comparativo, use_container_width=True, config={'displayModeBar': False}, key="chart_comparativo_sonda")
 
         # ----- 3. COMPOSIÇÃO FINANCEIRA DO UPTIME -----
         if composicao_horas:
@@ -568,7 +568,7 @@ with tab4:
                      x=0.5
                  )
              )
-             st.plotly_chart(fig_composicao, use_container_width=True, config={'displayModeBar': False})
+             st.plotly_chart(fig_composicao, use_container_width=True, config={'displayModeBar': False}, key="chart_composicao_faturamento")
 
         st.markdown("---")
         st.markdown("##### 📑 Tabela Oficial Equivalente (Formato Excel)")
@@ -711,7 +711,7 @@ with tab6:
                 paper_bgcolor='white',
             )
 
-            st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
+            st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False}, key=f"chart_diario_{sonda}")
             st.markdown("---")
 
 
