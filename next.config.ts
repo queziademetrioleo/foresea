@@ -1,27 +1,21 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // O modo 'standalone' cria uma pasta compacta com todas as dependências inclusas
-  // Isso resolve erros de "Módulo não encontrado" em ambientes de nuvem
+  // ATENÇÃO: Mudança crítica para resolver o erro de "Módulo não encontrado"
+  // Removendo 'serverExternalPackages'. Isso força o Next.js a incluir 
+  // o driver de banco de dados diretamente no pacote (bundle).
+  // Como estamos usando o 'postgres.js' (que é JS puro), isso vai funcionar.
+  
   output: 'standalone',
-  
-  serverExternalPackages: [
-    'pg',
-  ],
-  
+
   experimental: {
     serverActions: {
       bodySizeLimit: '50mb',
     },
   },
-  
-  // Desabilita avisos de lint durante o build para agilizar o deploy
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  typescript: {
-    ignoreBuildErrors: true, 
-  }
+
+  typescript: { ignoreBuildErrors: true },
+  eslint: { ignoreDuringBuilds: true },
 };
 
 export default nextConfig;
