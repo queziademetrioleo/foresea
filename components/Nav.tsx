@@ -8,14 +8,20 @@ export default function Nav() {
 
     return (
         <nav className="nav">
-            <Link href="/upload" className="nav-logo">
-                <img
-                    src="/foresea-logo.png"
-                    alt="Foresea"
-                    style={{ height: 36, width: 'auto', objectFit: 'contain' }}
-                />
-                <span className="nav-app-name">Uptime Operacional</span>
-            </Link>
+            <div className="nav-logo" style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+                <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none' }}>
+                    <img
+                        src="/foresea-logo.png"
+                        alt="Foresea"
+                        style={{ height: 36, width: 'auto', objectFit: 'contain' }}
+                    />
+                    <span className="nav-app-name" style={{ borderBottom: '2px solid #5edafb', paddingBottom: '4px' }}>OPERACIONAL</span>
+                </Link>
+                <div style={{ display: 'flex', gap: '16px', borderLeft: '1px solid rgba(255,255,255,0.2)', paddingLeft: '16px' }}>
+                    <span className="nav-app-name" style={{ opacity: 0.5, cursor: 'default', fontSize: '1rem' }}>ADM CONTRATUAL</span>
+                    <span className="nav-app-name" style={{ opacity: 0.5, cursor: 'default', fontSize: '1rem' }}>FINANCEIRO</span>
+                </div>
+            </div>
 
             <div className="nav-links">
                 <Link
