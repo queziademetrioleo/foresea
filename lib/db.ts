@@ -1,27 +1,29 @@
+// lib/db.ts
 import { Pool } from 'pg';
 
-// Força o uso de JS puro para evitar erros de módulos nativos no ambiente de nuvem
+// Previne erros de módulos nativos
 process.env.NODE_PG_FORCE_NATIVE = '0';
+
+// Configuração centralizada
+const dbConfig = {
+    host: process.env.DATABASE_HOST,
+    port: parseInt(process.env.DATABASE_PORT || '5432'),
+    database: process.env.DATABASE_NAME,
+    user: process.env.DATABASE_USER,
+    password: process.env.DATABASE_PASSWORD,
+    ssl: { rejectUnauthorized: false },
+    max: 2, // Mínimo de conexões para evitar overload em serverless
+    idleTimeoutMillis: 5000,
+};
 
 let pool: Pool | null = null;
 
 export function getPool(): Pool {
     if (!pool) {
-        pool = new Pool({
-            host: process.env.DATABASE_HOST,
-            port: parseInt(process.env.DATABASE_PORT || '5432'),
-            database: process.env.DATABASE_NAME,
-            user: process.env.DATABASE_USER,
-            password: process.env.DATABASE_PASSWORD,
-            ssl: { rejectUnauthorized: false },
-            max: 3, // Poucas conexões para não estourar o limite do Cloud SQL em serveless
-            idleTimeoutMillis: 10000,
-            connectionTimeoutMillis: 5000,
-        });
-
+        pool = new Pool(dbConfig);
         pool.on('error', (err) => {
-            console.error('Erro inesperado no Pool do Banco:', err);
-            pool = null; // Reseta o pool para reconectar na próxima tentativa
+            console.error('[DB] Pool Error:', err);
+            pool = null;
         });
     }
     return pool;
