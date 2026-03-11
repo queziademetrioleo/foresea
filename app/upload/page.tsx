@@ -1,7 +1,10 @@
 'use client';
 
 import { useState, useCallback, useRef } from 'react';
-import { FileText, Upload as UploadIcon, CheckCircle, AlertCircle, Loader2, ListTodo, BrainCircuit, Database } from 'lucide-react';
+import { FileText, Upload as UploadIcon, CheckCircle, AlertCircle, Loader2, ListTodo, BrainCircuit, Database, Lock } from 'lucide-react';
+
+/* ─── Types ─────────────────────────────────────── */
+type DocType = 'ADA' | 'ADP' | 'BM';
 
 interface StepStatus {
     upload: 'idle' | 'active' | 'done' | 'error';
@@ -18,88 +21,80 @@ interface FileEntry {
     expanded: boolean;
 }
 
+/* ─── Document Types Config ─────────────────────── */
+const DOC_TYPES: { key: DocType; label: string; fullName: string; available: boolean }[] = [
+    { key: 'ADA', label: 'ADA', fullName: 'Atestado Diário de Afretamento', available: false },
+    { key: 'ADP', label: 'ADP', fullName: 'Atestado Diário de Perfuração', available: true },
+    { key: 'BM',  label: 'BM',  fullName: 'Boletim de Medição', available: false },
+];
+
+/* ─── Helpers ───────────────────────────────────── */
 function formatBytes(bytes: number) {
     if (bytes < 1024) return `${bytes} B`;
     if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
     return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
+/* ─── Stepper Component ─────────────────────────── */
 function StepDot({ status, label, icon }: { status: string; label: string; icon: React.ReactNode }) {
-    const cls = status === 'idle' ? 'step' : `step ${status}`;
-    let inner: React.ReactNode = status === 'done' ? <CheckCircle size={12} /> : status === 'error' ? <AlertCircle size={12} /> : status === 'active' ? <Loader2 size={12} className="animate-spin" /> : null;
-
-    // Fallback if not done/error/active
-    if (status === 'idle') inner = '○';
+    const cls = ['step', status !== 'idle' ? status : ''].filter(Boolean).join(' ');
+    const inner =
+        status === 'done' ? <CheckCircle size={11} /> :
+        status === 'error' ? <AlertCircle size={11} /> :
+        status === 'active' ? <Loader2 size={11} className="animate-spin" style={{ animation: 'spin 0.8s linear infinite' }} /> :
+        '○';
 
     return (
         <div className={cls}>
-            <div className="step-dot" style={{
-                borderColor: status === 'active' ? 'var(--cyan)' : status === 'done' ? 'var(--success)' : status === 'error' ? 'var(--error)' : 'var(--border)'
-            }}>
-                {inner}
-            </div>
-            <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                {icon} {label}
-            </span>
+            <div className="step-dot">{inner}</div>
+            <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>{icon} {label}</span>
         </div>
     );
 }
 
 function Stepper({ steps }: { steps: StepStatus }) {
     return (
-        <div className="stepper" style={{ background: '#F8FAFC', padding: '16px', borderRadius: 'var(--radius-md)', margin: '12px 0' }}>
-            <StepDot status={steps.upload} label="Upload" icon={<ListTodo size={14} />} />
+        <div className="stepper">
+            <StepDot status={steps.upload} label="Upload" icon={<ListTodo size={13} />} />
             <div className="step-connector" />
-            <StepDot status={steps.gemini} label="Gemini Cloud" icon={<BrainCircuit size={14} />} />
+            <StepDot status={steps.gemini} label="Gemini AI" icon={<BrainCircuit size={13} />} />
             <div className="step-connector" />
-            <StepDot status={steps.db} label="Cloud SQL" icon={<Database size={14} />} />
+            <StepDot status={steps.db} label="Cloud SQL" icon={<Database size={13} />} />
         </div>
     );
 }
 
-function ExtractedPreview({
-    data,
-    expanded,
-    onToggle,
-}: {
+/* ─── Extracted Preview Component ───────────────── */
+function ExtractedPreview({ data, expanded, onToggle }: {
     data: Record<string, unknown>;
     expanded: boolean;
     onToggle: () => void;
 }) {
     const d = data as {
-        tipo_documento?: string;
-        numero?: number;
-        data?: string;
-        sonda?: string;
-        poco?: string;
+        tipo_documento?: string; numero?: number; data?: string;
+        sonda?: string; poco?: string;
         clausulas?: Record<string, number | string>;
         diesel_consumido?: Record<string, number>;
         oleo_diesel?: Record<string, number>;
         agua?: Record<string, number>;
         observacoes?: Record<string, string>;
-        vagas_excedentes_utilizadas_petrobras?: number;
-        outras_clausulas_encontradas?: string;
     };
 
     const clausulas = d.clausulas ?? {};
-    const clausulaKeys = ['101', '102', '104.1A', '104.1B', '104.1C', '104.1D', '104.2', '104.2B', '104.2C', '105', '107', '2.1.1'];
+    const clausulaKeys = ['101', '102', '104.1A', '104.1B', '104.1C', '104.1D', '104.2', '105', '107', '2.1.1'];
 
     return (
-        <div className="extracted-preview" style={{ marginTop: '16px', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
-            <div className="extracted-header" onClick={onToggle} style={{ background: 'var(--bg-primary)' }}>
-                <h4 style={{ color: 'var(--blue-brand)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <CheckCircle size={16} /> Dados extraídos pelo Gemini Cloud
-                </h4>
-                <span className="extracted-toggle" style={{ color: 'var(--blue-brand)', fontWeight: '600' }}>
-                    {expanded ? 'Ocultar Detalhes' : 'Ver Dados Extraídos'}
-                </span>
+        <div className="extracted-preview">
+            <div className="extracted-header" onClick={onToggle}>
+                <h4><CheckCircle size={15} /> Dados extraídos pelo Gemini AI</h4>
+                <span className="extracted-toggle">{expanded ? 'Ocultar ▲' : 'Ver Detalhes ▼'}</span>
             </div>
             {expanded && (
                 <div className="extracted-body">
                     <div className="extracted-grid">
                         <div className="extracted-item">
                             <span className="extracted-label">Tipo</span>
-                            <span className="extracted-value" style={{ color: 'var(--cyan)' }}>{d.tipo_documento ?? '—'}</span>
+                            <span className="extracted-value" style={{ color: 'var(--blue-sky)' }}>{d.tipo_documento ?? '—'}</span>
                         </div>
                         <div className="extracted-item">
                             <span className="extracted-label">Número</span>
@@ -122,12 +117,12 @@ function ExtractedPreview({
                     <div className="extracted-section-title">Cláusulas (horas)</div>
                     <div className="extracted-clauses">
                         {clausulaKeys.map((key) => {
-                            const val = key === 'motivo_102' ? undefined : clausulas[key];
+                            const val = clausulas[key];
                             const num = typeof val === 'number' ? val : null;
                             return (
-                                <div key={key} className="clause-pill" style={{ background: '#F8FAFC' }}>
+                                <div key={key} className="clause-pill">
                                     <div className="clause-pill-label">{key}</div>
-                                    <div className={`clause-pill-value ${num && num > 0 ? 'nonzero' : ''}`} style={{ color: num && num > 0 ? 'var(--warning)' : 'var(--text-primary)' }}>
+                                    <div className={`clause-pill-value ${num && num > 0 ? 'nonzero' : ''}`}>
                                         {num !== null ? num : '—'}
                                     </div>
                                 </div>
@@ -150,66 +145,15 @@ function ExtractedPreview({
                             </div>
                         </>
                     )}
-
-                    {d.oleo_diesel && (
-                        <>
-                            <div className="extracted-section-title">Óleo Diesel (m³)</div>
-                            <div className="extracted-grid">
-                                <div className="extracted-item">
-                                    <span className="extracted-label">Inicial</span>
-                                    <span className="extracted-value">{d.oleo_diesel.inicial ?? '—'}</span>
-                                </div>
-                                <div className="extracted-item">
-                                    <span className="extracted-label">Recebido</span>
-                                    <span className="extracted-value">{d.oleo_diesel.recebido ?? '—'}</span>
-                                </div>
-                                <div className="extracted-item">
-                                    <span className="extracted-label">Atual</span>
-                                    <span className="extracted-value">{d.oleo_diesel.atual ?? '—'}</span>
-                                </div>
-                            </div>
-                        </>
-                    )}
-
-                    {d.agua && (
-                        <>
-                            <div className="extracted-section-title">Água (m³)</div>
-                            <div className="extracted-grid">
-                                <div className="extracted-item">
-                                    <span className="extracted-label">Inicial</span>
-                                    <span className="extracted-value">{d.agua.inicial ?? '—'}</span>
-                                </div>
-                                <div className="extracted-item">
-                                    <span className="extracted-label">Atual</span>
-                                    <span className="extracted-value">{d.agua.atual ?? '—'}</span>
-                                </div>
-                                <div className="extracted-item">
-                                    <span className="extracted-label">Produzida</span>
-                                    <span className="extracted-value">{d.agua.produzida ?? '—'}</span>
-                                </div>
-                                <div className="extracted-item">
-                                    <span className="extracted-label">Consumida</span>
-                                    <span className="extracted-value">{d.agua.consumida ?? '—'}</span>
-                                </div>
-                            </div>
-                        </>
-                    )}
-
-                    {d.observacoes?.fiscalizacao && (
-                        <>
-                            <div className="extracted-section-title">Observação Fiscalização</div>
-                            <p style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.6, background: '#F8FAFC', padding: '12px', borderRadius: '8px' }}>
-                                {d.observacoes.fiscalizacao}
-                            </p>
-                        </>
-                    )}
                 </div>
             )}
         </div>
     );
 }
 
+/* ─── Main Page ─────────────────────────────────── */
 export default function UploadPage() {
+    const [selectedDoc, setSelectedDoc] = useState<DocType>('ADP');
     const [files, setFiles] = useState<FileEntry[]>([]);
     const [dragOver, setDragOver] = useState(false);
     const [processing, setProcessing] = useState(false);
@@ -235,69 +179,36 @@ export default function UploadPage() {
         addFiles(Array.from(e.dataTransfer.files));
     }, [addFiles]);
 
-    const removeFile = (id: string) => {
-        setFiles((prev) => prev.filter((f) => f.id !== id));
-    };
+    const removeFile = (id: string) => setFiles((prev) => prev.filter((f) => f.id !== id));
+    const toggleExpand = (id: string) => setFiles((prev) => prev.map((f) => f.id === id ? { ...f, expanded: !f.expanded } : f));
 
-    const toggleExpand = (id: string) => {
-        setFiles((prev) =>
-            prev.map((f) => (f.id === id ? { ...f, expanded: !f.expanded } : f))
-        );
-    };
+    const setStep = (id: string, step: keyof StepStatus, status: StepStatus[keyof StepStatus]) =>
+        setFiles((prev) => prev.map((f) => f.id === id ? { ...f, steps: { ...f.steps, [step]: status } } : f));
 
-    const setStep = (id: string, step: keyof StepStatus, status: StepStatus[keyof StepStatus]) => {
-        setFiles((prev) =>
-            prev.map((f) =>
-                f.id === id ? { ...f, steps: { ...f.steps, [step]: status } } : f
-            )
-        );
-    };
+    const setResult = (id: string, result: Record<string, unknown>) =>
+        setFiles((prev) => prev.map((f) => f.id === id ? { ...f, result, expanded: true } : f));
 
-    const setResult = (id: string, result: Record<string, unknown>) => {
-        setFiles((prev) =>
-            prev.map((f) =>
-                f.id === id ? { ...f, result, expanded: true } : f
-            )
-        );
-    };
-
-    const setError = (id: string, error: string) => {
-        setFiles((prev) =>
-            prev.map((f) => (f.id === id ? { ...f, error } : f))
-        );
-    };
+    const setError = (id: string, error: string) =>
+        setFiles((prev) => prev.map((f) => f.id === id ? { ...f, error } : f));
 
     const processFile = async (entry: FileEntry) => {
         setStep(entry.id, 'upload', 'active');
         const form = new FormData();
         form.append('file', entry.file);
-
         try {
             setStep(entry.id, 'upload', 'done');
             setStep(entry.id, 'gemini', 'active');
-
             const res = await fetch('/api/upload', { method: 'POST', body: form });
             const json = await res.json();
-
             if (!res.ok) {
                 const errMsg = json.error ?? 'Erro desconhecido';
-                // Detect which step failed
-                if (errMsg.includes('PDF') || errMsg.includes('texto')) {
-                    setStep(entry.id, 'gemini', 'error');
-                } else if (errMsg.includes('banco') || errMsg.includes('inserir')) {
-                    setStep(entry.id, 'gemini', 'done');
-                    setStep(entry.id, 'db', 'error');
-                } else {
-                    setStep(entry.id, 'gemini', 'error');
-                }
+                setStep(entry.id, errMsg.includes('banco') ? 'db' : 'gemini', 'error');
+                if (errMsg.includes('banco')) setStep(entry.id, 'gemini', 'done');
                 setError(entry.id, errMsg);
                 return;
             }
-
             setStep(entry.id, 'gemini', 'done');
             setStep(entry.id, 'db', 'active');
-
-            // Small delay for UX
             await new Promise((r) => setTimeout(r, 400));
             setStep(entry.id, 'db', 'done');
             setResult(entry.id, json.dados);
@@ -311,10 +222,7 @@ export default function UploadPage() {
         const pending = files.filter((f) => f.steps.db !== 'done' && !f.error);
         if (!pending.length) return;
         setProcessing(true);
-        // Process sequentially to avoid rate limits
-        for (const entry of pending) {
-            await processFile(entry);
-        }
+        for (const entry of pending) await processFile(entry);
         setProcessing(false);
     };
 
@@ -323,138 +231,160 @@ export default function UploadPage() {
     const errorCount = files.filter((f) => !!f.error).length;
 
     return (
-        <div className="upload-page">
-            <div className="page-header" style={{ textAlign: 'center' }}>
-                <div className="page-badge">Foresea Cloud Intelligence</div>
-                <h1 className="page-title" style={{ color: 'var(--blue-brand)' }}>
-                    Importar <span>Relatórios Diários</span>
+        <>
+            {/* Hero Header */}
+            <div className="hero-section">
+                <img
+                    src="https://foresea.com/wp-content/uploads/2023/06/logo_menu.svg"
+                    alt="Foresea"
+                    className="hero-logo"
+                />
+                <h1 className="hero-title">
+                    Uptime <span>Operacional</span>
                 </h1>
-                <p className="page-subtitle" style={{ margin: '0 auto 40px' }}>
-                    Extração automática de relatórios ADA, ADP ou BM via Gemini 2.5 Pro.
-                    Monitoramento em tempo real e integração direta com Cloud SQL.
+                <p className="hero-subtitle">
+                    Envie seus relatórios diários de sonda e deixe nossa IA extrair, validar e registrar os dados automaticamente no Cloud SQL.
                 </p>
             </div>
 
-            {/* Drop Zone */}
-            <div
-                className={`drop-zone ${dragOver ? 'drag-over' : ''}`}
-                onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
-                onDragLeave={() => setDragOver(false)}
-                onDrop={handleDrop}
-                onClick={() => inputRef.current?.click()}
-                style={{ padding: '64px 32px' }}
-            >
-                <div style={{
-                    width: '80px', height: '80px', borderRadius: '50%',
-                    background: 'var(--cyan-dim)', display: 'flex', alignItems: 'center',
-                    justifyContent: 'center', margin: '0 auto 24px', color: 'var(--cyan)'
-                }}>
-                    <UploadIcon size={32} />
-                </div>
-                <div className="drop-title" style={{ fontSize: '24px', fontWeight: '700' }}>Arraste seus PDFs aqui</div>
-                <div className="drop-subtitle" style={{ color: 'var(--text-secondary)' }}>
-                    ou clique para selecionar arquivos do seu computador
-                </div>
-                <button className="btn-upload" type="button" onClick={(e) => { e.stopPropagation(); inputRef.current?.click(); }} style={{ marginTop: '24px', borderRadius: 'var(--radius-md)', padding: '12px 32px' }}>
-                    Selecionar Arquivos
-                </button>
-                <div className="drop-hint" style={{ marginTop: '20px' }}>
-                    <span>📋</span> Suporta múltiplos arquivos — ADA, ADP e BM
-                </div>
-                <input
-                    ref={inputRef}
-                    type="file"
-                    className="drop-input"
-                    accept=".pdf"
-                    multiple
-                    onChange={(e) => addFiles(Array.from(e.target.files ?? []))}
-                />
-            </div>
+            {/* Content Card */}
+            <div className="doc-selector-section">
+                <div className="doc-selector-card">
 
-            {/* File List */}
-            {files.length > 0 && (
-                <>
-                    <div className="file-list" style={{ marginTop: '40px' }}>
-                        {files.map((entry) => (
-                            <div key={entry.id} className="file-card" style={{ boxShadow: 'var(--shadow-card)', border: 'none' }}>
-                                <div className="file-card-header">
-                                    <div className="file-icon" style={{ background: 'var(--bg-primary)', color: 'var(--blue-brand)' }}>
-                                        <FileText size={20} />
-                                    </div>
-                                    <div className="file-info">
-                                        <div className="file-name" style={{ fontWeight: '700' }}>{entry.file.name}</div>
-                                        <div className="file-size">{formatBytes(entry.file.size)}</div>
-                                    </div>
-                                    {!processing && entry.steps.db !== 'done' && (
-                                        <button
-                                            className="file-remove"
-                                            onClick={() => removeFile(entry.id)}
-                                            title="Remover"
-                                        >✕</button>
-                                    )}
-                                </div>
-
-                                <Stepper steps={entry.steps} />
-
-                                {entry.error && (
-                                    <div className="alert alert-error" style={{ marginTop: 12 }}>
-                                        <AlertCircle size={16} />
-                                        <span>{entry.error}</span>
-                                    </div>
-                                )}
-
-                                {entry.result && (
-                                    <ExtractedPreview
-                                        data={entry.result}
-                                        expanded={entry.expanded}
-                                        onToggle={() => toggleExpand(entry.id)}
-                                    />
-                                )}
-                            </div>
+                    {/* Step 1: Document Type Selection */}
+                    <div className="doc-selector-title">01 — Selecione o tipo de relatório</div>
+                    <div className="doc-types-grid">
+                        {DOC_TYPES.map((dt) => (
+                            <button
+                                key={dt.key}
+                                className={[
+                                    'doc-type-btn',
+                                    !dt.available ? 'disabled' : '',
+                                    selectedDoc === dt.key && dt.available ? 'active' : '',
+                                ].filter(Boolean).join(' ')}
+                                onClick={() => dt.available && setSelectedDoc(dt.key)}
+                                disabled={!dt.available}
+                                aria-label={`Selecionar ${dt.label}`}
+                            >
+                                {dt.available && <span className="doc-type-badge">Disponível</span>}
+                                {!dt.available && <span className="doc-type-lock"><Lock size={12} /></span>}
+                                <div className="doc-type-icon">{dt.key}</div>
+                                <div className="doc-type-label">{dt.label}</div>
+                                <div className="doc-type-desc">{dt.fullName}</div>
+                            </button>
                         ))}
                     </div>
 
-                    {/* Submit bar */}
-                    <div className="submit-bar" style={{ boxShadow: 'var(--shadow-card)', border: 'none', background: 'var(--bg-card)' }}>
-                        <div className="submit-bar-info" style={{ color: 'var(--text-secondary)' }}>
-                            <strong>{files.length}</strong> arquivo{files.length !== 1 ? 's' : ''} na fila
-                            {doneCount > 0 && <> · <span className="text-success" style={{ fontWeight: '600' }}>{doneCount} processado{doneCount !== 1 ? 's' : ''}</span></>}
-                            {errorCount > 0 && <> · <span className="text-error" style={{ fontWeight: '600' }}>{errorCount} com erro</span></>}
+                    <div className="section-divider" />
+
+                    {/* Step 2: Upload Area */}
+                    <div className="doc-selector-title">02 — Envie o arquivo PDF ({selectedDoc})</div>
+                    <div
+                        className={`upload-area ${dragOver ? 'drag-over' : ''}`}
+                        onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+                        onDragLeave={() => setDragOver(false)}
+                        onDrop={handleDrop}
+                        onClick={() => inputRef.current?.click()}
+                    >
+                        <div className="upload-area-icon">
+                            <UploadIcon size={28} />
+                        </div>
+                        <div className="upload-area-title">Arraste o PDF aqui</div>
+                        <div className="upload-area-sub">
+                            Suporta múltiplos arquivos · Relatório tipo <strong>{selectedDoc}</strong>
                         </div>
                         <button
-                            className="btn-process"
-                            onClick={processAll}
-                            disabled={processing || pendingCount === 0}
-                            style={{
-                                background: 'linear-gradient(135deg, var(--blue-brand), var(--blue-mid))',
-                                color: 'white',
-                                borderRadius: 'var(--radius-md)',
-                                padding: '14px 40px'
-                            }}
+                            className="btn-select"
+                            type="button"
+                            onClick={(e) => { e.stopPropagation(); inputRef.current?.click(); }}
                         >
-                            {processing ? (
-                                <>
-                                    <Loader2 className="animate-spin" size={20} />
-                                    Processando...
-                                </>
-                            ) : (
-                                <>
-                                    Enviar {pendingCount > 0 ? `${pendingCount} Arquivo${pendingCount !== 1 ? 's' : ''}` : ''}
-                                </>
-                            )}
+                            <UploadIcon size={16} />
+                            Selecionar Arquivos
                         </button>
+                        <div className="upload-hint">
+                            <span>📋</span> PDF digitalizado ou escaneado — Gemini 2.5 Pro processa ambos
+                        </div>
+                        <input
+                            ref={inputRef}
+                            type="file"
+                            className="drop-input"
+                            accept=".pdf"
+                            multiple
+                            onChange={(e) => addFiles(Array.from(e.target.files ?? []))}
+                        />
                     </div>
-                </>
-            )}
 
-            {doneCount > 0 && !processing && (
-                <div className="alert alert-success" style={{ marginTop: 24, boxShadow: 'var(--shadow-card)' }}>
-                    <CheckCircle size={20} />
-                    <span style={{ fontWeight: '500' }}>
-                        {doneCount} documento{doneCount !== 1 ? 's' : ''} processado{doneCount !== 1 ? 's' : ''} com sucesso e inserido{doneCount !== 1 ? 's' : ''} no Cloud SQL Foresea.
-                    </span>
+                    {/* File List */}
+                    {files.length > 0 && (
+                        <>
+                            <div className="file-list" style={{ marginTop: 28 }}>
+                                {files.map((entry) => (
+                                    <div key={entry.id} className="file-card">
+                                        <div className="file-card-header">
+                                            <div className="file-icon">
+                                                <FileText size={20} />
+                                            </div>
+                                            <div className="file-info">
+                                                <div className="file-name">{entry.file.name}</div>
+                                                <div className="file-size">{formatBytes(entry.file.size)}</div>
+                                            </div>
+                                            {!processing && entry.steps.db !== 'done' && (
+                                                <button className="file-remove" onClick={() => removeFile(entry.id)} title="Remover">✕</button>
+                                            )}
+                                        </div>
+
+                                        <Stepper steps={entry.steps} />
+
+                                        {entry.error && (
+                                            <div className="alert alert-error">
+                                                <AlertCircle size={16} />
+                                                <span>{entry.error}</span>
+                                            </div>
+                                        )}
+
+                                        {entry.result && (
+                                            <ExtractedPreview
+                                                data={entry.result}
+                                                expanded={entry.expanded}
+                                                onToggle={() => toggleExpand(entry.id)}
+                                            />
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Submit Bar */}
+                            <div className="submit-bar">
+                                <div className="submit-bar-info">
+                                    <strong>{files.length}</strong> arquivo{files.length !== 1 ? 's' : ''} na fila
+                                    {doneCount > 0 && <> · <span className="text-success" style={{ fontWeight: 600 }}>{doneCount} processado{doneCount !== 1 ? 's' : ''}</span></>}
+                                    {errorCount > 0 && <> · <span className="text-error" style={{ fontWeight: 600 }}>{errorCount} com erro</span></>}
+                                </div>
+                                <button
+                                    className="btn-process"
+                                    onClick={processAll}
+                                    disabled={processing || pendingCount === 0}
+                                >
+                                    {processing ? (
+                                        <><Loader2 size={18} style={{ animation: 'spin 0.8s linear infinite' }} /> Processando...</>
+                                    ) : (
+                                        <>Processar {pendingCount > 0 ? `${pendingCount} Arquivo${pendingCount !== 1 ? 's' : ''}` : ''}</>
+                                    )}
+                                </button>
+                            </div>
+
+                            {doneCount > 0 && !processing && (
+                                <div className="alert alert-success" style={{ marginTop: 16 }}>
+                                    <CheckCircle size={20} />
+                                    <span>
+                                        <strong>{doneCount} documento{doneCount !== 1 ? 's' : ''}</strong> processado{doneCount !== 1 ? 's' : ''} com sucesso e registrado{doneCount !== 1 ? 's' : ''} no Cloud SQL Foresea.
+                                    </span>
+                                </div>
+                            )}
+                        </>
+                    )}
                 </div>
-            )}
-        </div>
+            </div>
+        </>
     );
 }
